@@ -26,9 +26,8 @@ def length_of_longest_substring(s)
     s.split("").each_with_index do |ch, idx|
         if used_chars[ch] && start <= used_chars[ch]
             start = used_chars[ch] + 1
-        else
-            max_len = [max_len, idx - start + 1].max
         end
+        max_len = [max_len, idx - start + 1].max
         used_chars[ch] = idx
     end
     
