@@ -41,3 +41,13 @@ var searchBST = function (root, val) {
     return searchBST(root.right, val);
   }
 };
+
+def search_bst(root, val)
+    return [] if root.nil?
+    return root if root.val == val
+    if root.val < val
+        search_bst(root.right, val)
+    else
+        search_bst(root.left, val)
+    end
+end
