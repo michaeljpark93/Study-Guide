@@ -1,0 +1,45 @@
+# Given a collection of distinct integers, return all possible permutations.
+
+# Example:
+
+# Input: [1,2,3]
+# Output:
+# [
+#   [1,2,3],
+#   [1,3,2],
+#   [2,1,3],
+#   [2,3,1],
+#   [3,1,2],
+#   [3,2,1]
+# ]
+
+# @param {Integer[]} nums
+# @return {Integer[][]}
+# def permute(nums)
+#     perms = []
+#     perms.push([]) if nums.empty?
+    
+#     nums.each_with_index do |num, i|
+#         prev = permute(nums[0...i] + nums[i+1..-1])
+#         prev.each do |perm|
+#             perms.push([num] + perm)
+#         end
+#     end
+    
+#     perms
+# end
+
+def permute(nums)
+    return [nums] if nums.length < 2
+    first = nums.shift
+    perms = permute(nums)
+    result = []
+    
+    perms.each do |perm|
+        (0..perm.length).each do |i|
+            result << perm[0...i] + [first] + perm[i..-1]
+        end
+    end
+    
+    result
+end
