@@ -20,3 +20,7 @@ def intersection(nums1, nums2)
     nums1.each { |num| num1.add(num) }
     nums2.select { |num| num1.include?(num) }.uniq
 end
+
+def intersection(nums1, nums2)
+  nums1 & nums2
+end
