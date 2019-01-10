@@ -1,0 +1,26 @@
+# Given a string, find the first non-repeating character in it and return it's index. If it doesn't exist, return -1.
+
+# Examples:
+
+# s = "leetcode"
+# return 0.
+
+# s = "loveleetcode",
+# return 2.
+# Note: You may assume the string contain only lowercase letters.
+
+# @param {String} s
+# @return {Integer}
+def first_uniq_char(s)
+    characters = Set.new
+    s.chars.each_with_index do |ch, i|
+        next if characters.include?(ch)
+        if (i+1...s.length).none? { |j| s[j] == ch }
+            return i
+        else
+            characters.add(ch)
+        end
+    end
+    
+    -1
+end
