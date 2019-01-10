@@ -1,0 +1,35 @@
+// Given a set of distinct integers, nums, return all possible subsets (the power set).
+// Note: The solution set must not contain duplicate subsets.
+
+// Example:
+// Input: nums = [1,2,3]
+// Output:
+// [
+//   [3],
+//   [1],
+//   [2],
+//   [1,2,3],
+//   [1,3],
+//   [2,3],
+//   [1,2],
+//   []
+// ]
+
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var subsets = function (nums) {
+  if (nums.length === 0) return [[]];
+  const prev = subsets(nums.slice(0, -1));
+  return prev.concat(prev.map(sub => [...sub, nums[nums.length - 1]]));
+};
+
+// Ruby Solution:
+
+// def subsets(nums)
+//  return [[]] if nums.empty ?
+//  last = nums.pop
+//  prev = subsets(nums)
+//  prev.concat(prev.map { | el | el +=[last] })
+// end
