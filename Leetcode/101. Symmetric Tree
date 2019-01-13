@@ -1,0 +1,61 @@
+// Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
+
+// For example, this binary tree [1,2,2,3,4,4,3] is symmetric:
+
+//     1
+//    / \
+//   2   2
+//  / \ / \
+// 3  4 4  3
+// But the following [1,2,2,null,3,null,3] is not:
+//     1
+//    / \
+//   2   2
+//    \   \
+//    3    3
+// Note:
+// Bonus points if you could solve it both recursively and iteratively.
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+
+// Recursive solution
+const isSymmetric = function(root) {
+    if (!root) return true;
+    
+    function mirror(root, root1) {
+        if (!root && !root1) return true;
+        if (!root || !root1 || root.val !== root1.val) return false;
+        return mirror(root.left, root1.right) && mirror(root.right, root1.left)
+    }
+    
+    return mirror(root.left, root.right);
+};
+
+// Iterative solution
+const isSymmetric = function (root) {
+    if (!root) return true;
+    const left = [root.left];
+    const right = [root.right];
+    
+    while (left.length > 0 || right.length > 0) {
+        l = left.shift();
+        r = right.shift();
+        
+        if (!l && !r) continue;
+        if (!l || !r || l.val !== r.val) return false;
+        left.push(l.left); left.push(l.right);
+        right.push(r.right); right.push(r.left);
+    }
+    
+    return true;
+}
