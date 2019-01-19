@@ -46,3 +46,28 @@ def reverse_list(head)
     end
     prev
 end
+
+// JavaScript iterative solution:
+var reverseList = function(head) {
+    if (!head) return head;
+    let prev = null;
+    while (head) {
+        let next = head.next;
+        head.next = prev;
+        prev = head;
+        head = next;
+    }
+    return prev;
+};
+
+// Javascript recursive solution:
+const reverseList = function(head) {
+    if (!head || !head.next) {
+        console.log(head)
+        return head;
+    }
+    var newHead = reverseList(head.next);
+    head.next.next = head;
+    head.next = null;
+    return newHead;
+}
