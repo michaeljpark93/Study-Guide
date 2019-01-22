@@ -1,0 +1,60 @@
+// You are given a string, s, and a list of words, words, that are all of the same length. Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once and without any intervening characters.
+
+// Example 1:
+// Input:
+//   s = "barfoothefoobarman",
+//   words = ["foo","bar"]
+// Output: [0,9]
+// Explanation: Substrings starting at index 0 and 9 are "barfoor" and "foobar" respectively.
+// The output order does not matter, returning [9,0] is fine too.
+// Example 2:
+
+// Input:
+//   s = "wordgoodgoodgoodbestword",
+//   words = ["word","good","best","word"]
+// Output: []
+
+/**
+ * @param {string} s
+ * @param {string[]} words
+ * @return {number[]}
+ */
+
+const findSubstring = function (s, words) {
+  const result = [];
+  if (s.length === 0 || !words.length) return result;
+  const len = words[0].length;
+  const length = words.length * len;
+
+  const wordDict = {};
+  words.forEach((word) => {
+    if (wordDict[word]) {
+      wordDict[word] += 1;
+    } else {
+      wordDict[word] = 1;
+    }
+  });
+
+  for (let i = 0; i <= s.length - len; i++) {
+    const sub = s.substring(i, i + len);
+    if (words.includes(sub) && helper(s, words, len, i, length, wordDict)) {
+      result.push(i);
+    }
+  }
+  return result;
+};
+
+
+const helper = function (s, words, len, i, length, wordDict) {
+  const dict = Object.assign({}, wordDict);
+  const sub = s.substring(i, i + length);
+  for (let j = 0; j < length; j += len) {
+    const chunk = sub.substring(j, j + len);
+    if (dict[chunk] >= 1) {
+      dict[chunk] -= 1;
+    } else {
+      return false;
+    }
+  }
+  return true;
+};
