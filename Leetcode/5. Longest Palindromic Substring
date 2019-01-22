@@ -1,0 +1,70 @@
+// Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
+
+// Example 1:
+// Input: "babad"
+// Output: "bab"
+// Note: "aba" is also a valid answer.
+
+// Example 2:
+// Input: "cbbd"
+// Output: "bb"
+
+// Middle out solution that checks even and odd lengths for longest palindrome (Time: O(N^2))
+const longestPalindrome = function (s) {
+  let maxLen = 0;
+  let lo = 0;
+  const len = s.length;
+  if (len < 2) return s;
+
+  const extendPal = function (s, j, k) {
+    while (j >= 0 && k <= s.length && s.charAt(j) === s.charAt(k)) {
+      j -= 1;
+      k += 1;
+    }
+
+    if (maxLen < k - j - 1) {
+      lo = j + 1;
+      maxLen = k - j - 1;
+    }
+  };
+
+  for (let i = 0; i < len - 1; i++) {
+    extendPal(s, i, i);
+    extendPal(s, i, i + 1);
+  }
+
+  return s.substring(lo, lo + maxLen);
+};
+
+
+// TLE code for large inputs
+// const longestPalindrome = function (s) {
+//   if (s.length === 0) return s;
+//   let longest = '';
+//   const dict = {};
+
+//   Array.from(s).forEach((ch, idx) => {
+//     if (dict[ch]) {
+//       dict[ch].push(idx);
+//     } else {
+//       dict[ch] = [idx];
+//     }
+//   });
+
+//   const pairs = Object.values(dict).filter(pair => pair.length > 1);
+//   pairs.forEach((pair) => {
+//     for (let i = 0; i < pair.length; i++) {
+//       for (let j = pair.length - 1; j > i; j--) {
+//         const str = s.slice(pair[i], pair[j] + 1);
+//         if (str === Array.from(str).reverse().join('')) {
+//           if (str.length > longest.length) {
+//             longest = str;
+//             j = i;
+//           }
+//         }
+//       }
+//     }
+//   });
+
+//   return longest.length > 0 ? longest : s[0];
+// };
