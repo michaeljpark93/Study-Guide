@@ -1,0 +1,44 @@
+// Given a string s, partition s such that every substring of the partition is a palindrome.
+
+// Return all possible palindrome partitioning of s.
+
+// Example:
+
+// Input: "aab"
+// Output:
+// [
+//   ["aa","b"],
+//   ["a","a","b"]
+// ]
+
+/**
+ * @param {string} s
+ * @return {string[][]}
+ */
+const partition = function (s) {
+  const result = [];
+  if (!s) return result;
+
+  function isPalindrome(left, right) {
+    const substring = s.slice(left, right + 1);
+    return substring === Array.from(substring).reverse().join('');
+  }
+
+  function palPartition(start, subseq) {
+    if (start === s.length) {
+      result.push(subseq.slice());
+    }
+    for (let i = start; i < s.length; i += 1) {
+      if (isPalindrome(start, i)) {
+        subseq.push(s.substring(start, i + 1));
+        palPartition(i + 1, subseq);
+        subseq.pop();
+      }
+    }
+  }
+
+  palPartition(0, []);
+  return result;
+};
+
+// Time: O(n * 2^n), Space: O(n), n = s.length
