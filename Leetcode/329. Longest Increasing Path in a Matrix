@@ -1,0 +1,62 @@
+Given an integer matrix, find the length of the longest increasing path.
+// From each cell, you can either move to four directions: left, right, up or down. You may NOT move diagonally or move outside of the boundary (i.e. wrap-around is not allowed).
+
+// Example 1:
+// Input: nums = 
+// [
+//   [9,9,4],
+//   [6,6,8],
+//   [2,1,1]
+// ] 
+// Output: 4 
+// Explanation: The longest increasing path is [1, 2, 6, 9].
+
+// Example 2:
+// Input: nums = 
+// [
+//   [3,4,5],
+//   [3,2,6],
+//   [2,2,1]
+// ] 
+// Output: 4 
+// Explanation: The longest increasing path is [3, 4, 5, 6]. Moving diagonally is not allowed.
+
+/**
+ * @param {number[][]} matrix
+ * @return {number}
+ */
+
+const dirs = [[-1, 0], [0, 1], [1, 0], [0, -1]];
+
+const longestIncreasingPath = function (matrix) {
+  if (!matrix.length) return 0;
+  const rows = matrix.length;
+  const cols = matrix[0].length;
+  const cache = new Array(rows)
+  for (let i = 0; i < rows; i += 1) {
+    cache[i] = new Array(cols);
+  }
+  let max = 1;
+
+  for (let row = 0; row < rows; row += 1) {
+    for (let col = 0; col < cols; col += 1) {
+      const len = dfs(row, col);
+      max = Math.max(max, len);
+    }
+  }
+  return max;
+
+  function dfs(row, col) {
+    if (cache[row][col]) return cache[row][col];
+    let max = 1;
+    for (let d of dirs) {
+      const x = row + d[0];
+      const y = col + d[1];
+      if (x < 0 || x >= rows || y < 0 || y >= cols || matrix[row][col] <= matrix[x][y]) continue;
+      let len = 1 + dfs(x, y);
+      max = Math.max(max, len);
+    }
+    cache[row][col] = max;
+    return max;
+  }
+};
