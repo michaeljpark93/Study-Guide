@@ -63,3 +63,28 @@ const canFinish = function (numCourses, prerequisites) {
 
   return finished === numCourses;
 };
+
+# Python solution:
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        # base case of have 1 or less courses
+        if numCourses <= 1 or len(prerequisites) == 0: return True
+        # set up list of courses with idx as course number and value as number of prerequisites
+        preRecs = [0] * numCourses
+        # set up mapping of edges for which courses each course is a prereq to
+        edgeMap = { preReq: [] for preReq in range(numCourses) }
+        for courses in prerequisites:
+            preRecs[courses[0]] += 1
+            edgeMap[courses[1]].append(courses[0])
+        # create a queue of classes with no prerecs
+        queue = list(i for i in range(numCourses) if preRecs[i] == 0)
+        finished_courses = 0
+        while len(queue):
+            currCourse = queue.pop()
+            finished_courses += 1
+            for course in edgeMap[currCourse]:
+                preRecs[course] -= 1
+                if preRecs[course] == 0:
+                    queue.append(course)
+        # check that courses that can be finished match number of courses
+        return finished_courses == numCourses
