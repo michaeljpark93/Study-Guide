@@ -33,3 +33,17 @@ def length_of_longest_substring(s)
     
     max_len
 end
+
+# Python solution:
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        max_len, start = 0, 0
+        seen = {}
+        for idx, ch in enumerate(s):
+            if ch in seen:
+                max_len = max(max_len, idx - start)
+                start = max(start, seen[ch] + 1)
+            seen[ch] = idx
+        return max(max_len, len(s) - start)
+        
