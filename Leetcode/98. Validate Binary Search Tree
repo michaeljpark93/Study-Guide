@@ -29,6 +29,7 @@ Explanation: The input is: [5,1,4,null,null,3,6]. The root node's value is 5 but
 #         self.left = None
 #         self.right = None
 
+# Recursive Solution:
 class Solution:
     def isValidBST(self, root: TreeNode, lessThan = float('inf'), largerThan = float('-inf')) -> bool:
         if not root:
@@ -37,4 +38,20 @@ class Solution:
             return False
         return self.isValidBST(root.left, min(lessThan, root.val), largerThan) \
             and self.isValidBST(root.right, lessThan, max(root.val, largerThan))
-    
+
+# Iterative Solution:
+class Solution:
+    def inOrderTraversal(self, root, output):
+        if not root:
+            return
+        self.inOrderTraversal(root.left, output)
+        output.append(root.val)
+        self.inOrderTraversal(root.right, output)
+        
+    def isValidBST(self, root: TreeNode) -> bool:
+        output = []
+        self.inOrderTraversal(root, output)
+        for idx in range(1, len(output)):
+            if output[idx] <= output[idx - 1]:
+                return False
+        return True
