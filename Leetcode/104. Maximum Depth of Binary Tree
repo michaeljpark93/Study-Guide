@@ -50,3 +50,41 @@ def max_depth(root)
     
     depth
 end
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+from collections import deque
+
+class Solution:
+    # Python Recursive Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        left = self.maxDepth(root.left)
+        right = self.maxDepth(root.right)
+        return 1 + max(left, right)
+    
+    # Python Iterative Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        depth = 0
+        queue = deque()
+        queue.append(root)
+        while queue:
+            depth += 1
+            count = len(queue)
+            while count > 0:
+                curr = queue.popleft()
+                if curr.left:
+                    queue.append(curr.left)
+                if curr.right:
+                    queue.append(curr.right)
+                count -= 1
+        return depth
