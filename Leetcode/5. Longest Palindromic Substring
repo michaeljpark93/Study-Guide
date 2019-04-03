@@ -68,3 +68,22 @@ const longestPalindrome = function (s) {
 
 //   return longest.length > 0 ? longest : s[0];
 // };
+
+# Python Solution:
+class Solution:
+    def check_longest_palindrome(self, s, l, r):
+        while l >= 0 and r < len(s) and s[l] == s[r]:
+            l -= 1
+            r += 1
+        return s[l+1:r]
+            
+    def longestPalindrome(self, s: str) -> str:
+        result = ""
+        for idx in range(len(s)):
+            palindrome1 = self.check_longest_palindrome(s, idx, idx)
+            if len(palindrome1) > len(result):
+                result = palindrome1
+            palindrome2 = self.check_longest_palindrome(s, idx, idx+1)
+            if len(palindrome2) > len(result):
+                result = palindrome2
+        return result
