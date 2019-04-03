@@ -1,0 +1,39 @@
+# Given a 2D board and a word, find if the word exists in the grid.
+# The word can be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once.
+
+# Example:
+# board =
+# [
+#   ['A','B','C','E'],
+#   ['S','F','C','S'],
+#   ['A','D','E','E']
+# ]
+
+# Given word = "ABCCED", return true.
+# Given word = "SEE", return true.
+# Given word = "ABCB", return false.
+
+from collections import deque
+
+class Solution:
+    def check_surroundings(self, board, r_idx, c_idx, visited, word):
+        if len(word) == 0:
+            return True 
+        if r_idx < 0 or r_idx >= len(board) or c_idx < 0 or c_idx >= len(board[0]) \
+            or (r_idx, c_idx) in visited or board[r_idx][c_idx] != word[0]:
+            return False      
+        visited.add((r_idx, c_idx))
+        result = self.check_surroundings(board, r_idx - 1, c_idx, visited, word[1:]) \
+            or self.check_surroundings(board, r_idx, c_idx + 1, visited, word[1:]) \
+            or self.check_surroundings(board, r_idx + 1, c_idx, visited, word[1:]) \
+            or self.check_surroundings(board, r_idx, c_idx - 1, visited, word[1:]) 
+        return result
+            
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        for r_idx in range(len(board)):
+            for c_idx in range(len(board[0])):
+                visited = set()
+                if self.check_surroundings(board, r_idx, c_idx, visited, word):
+                    return True
+        return False
+                    
