@@ -43,3 +43,16 @@ def permute(nums)
     
     result
 end
+
+# Python Solution:
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        perms = [[]]
+        for num in nums:
+            new_perms = []
+            for perm in perms:
+                for i in range(len(perm) + 1):
+                    new_perms.append(perm[:i] + [num] + perm[i:])
+            perms = new_perms
+        return perms
+    
