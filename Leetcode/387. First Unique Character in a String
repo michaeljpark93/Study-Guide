@@ -24,3 +24,16 @@ def first_uniq_char(s)
     
     -1
 end
+
+# Python Solution:
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        pos = {}
+        seen = set()
+        for idx, ch in enumerate(s):
+            if ch not in seen:
+                pos[ch] = idx
+                seen.add(ch)
+            elif ch in pos:
+                del pos[ch]
+        return min(pos.values()) if pos else -1

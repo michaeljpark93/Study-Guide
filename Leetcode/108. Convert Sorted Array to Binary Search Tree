@@ -33,3 +33,23 @@ var sortedArrayToBST = function(nums) {
     root.right = sortedArrayToBST(nums.slice(mid + 1));
     return root;
 };
+
+# Python Solution:
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
+        if not len(nums):
+            return None
+        root_idx = len(nums) // 2
+        root = TreeNode(nums[root_idx])
+        root.left = self.sortedArrayToBST(nums[:root_idx])
+        root.right = self.sortedArrayToBST(nums[root_idx + 1:])
+        return root
+
+# Time: O()
