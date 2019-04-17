@@ -16,3 +16,18 @@
 def missing_number(nums)
     (1..nums.length).sum - nums.sum
 end
+
+// JavaScript Solution
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var missingNumber = function(nums) {
+    let missing = nums.length;
+    for (let i = 0; i < nums.length; i += 1) {
+        missing ^= i ^ nums[i];
+    }
+    return missing;
+};
+
+// Time: O(n), Space: O(1)
