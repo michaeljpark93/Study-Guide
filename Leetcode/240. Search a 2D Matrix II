@@ -29,3 +29,14 @@ class Solution:
                 if target in row: return True
         
         return False
+
+
+// JavaScript Solution:
+var searchMatrix = function(matrix, target) {
+    for (let row = 0; row < matrix.length; row += 1) {
+        if (target >= matrix[row][0] && target <= matrix[row][matrix[0].length - 1]) {
+            if (matrix[row].includes(target)) return true;
+        }
+    }
+    return false;
+};
